@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Carousel</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 10px;
+      background: transparent;
+    }
+    .carousel-container {
+      overflow: hidden;
+      width: 1920px;
+      height: 60px;
+      position: relative;
+      justify-content: center;
+      margin-top: 990px;
+      border-bottom-left-radius: 20px;
+    }
+    .carousel {
+      display: flex;
+      position: absolute;
+      transition: transform 0.1s linear;
+    }
+    .carousel-item {
+      display: flex;
+      align-items: center;
+    }
+    .carousel-item img {
+      height: 55px;
+      object-fit: cover;
+    }
+    .carousel-item div {
+      width: 10px;
+      height: 55px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel-container">
+    <div id="carousel" class="carousel"></div>
+  </div>
+
+  <script>
+    const images = [
+      "Bild_Logo.png",
+      "Bild_Streamer.png",
+      "Bild_TikTok.png",
+      "Bild_Youtube.png",
+      "Bild_FW_1.png",
+      "Bild_Bewerben.png",
+      "Bild_Facebook.png",
+      "Bild_FW_2.png",
+      "Bild_Homepage.png",
+    ];
+
+    function getImageWidth(image) {
+      if (image.includes("Logo")) return 600;
+      if (image.includes("Bewerben") || image.includes("Homepage")) return 900;
+      return 300;
+    }
+
+    const carousel = document.getElementById("carousel");
+    let offset = 0;
+
+    function updateCarousel() {
+      const items = [...images, ...images].map((src) => {
+        return `
+          <div class="carousel-item">
+            <img src="${src}" alt="carousel" style="width: ${getImageWidth(src)}px;">
+            <div></div>
+          </div>
+        `;
+      }).join('');
+
+      carousel.innerHTML = items;
+
+      setInterval(() => {
+        offset = (offset - 1) % 5000;
+        carousel.style.transform = `translateX(${offset}px)`;
+      }, 30);
+    }
+
+    updateCarousel();
+  </script>
+</body>
+</html>
